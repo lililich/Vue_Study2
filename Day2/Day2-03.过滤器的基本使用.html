@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="app">
+         <!-- 过滤器可以同时传递多个参数 -->
+        <p> {{ msg | msgFormat('疯狂+1','123') }}</p>
+        <!-- 过滤器也可以多次调用 -->
+        <p> {{ msg | msgFormat('疯狂+1','123') | test}}</p>
+    </div>
+    <script>
+        // 定义一个Vue全局的过滤器，名字叫做 msgFormat
+        Vue.filter('msgFormat', function(msg,arg,arg2){
+            //字符串的replace方法，第一个参数除了可写一个字符串之外，还可以定义一个正则
+            return msg.replace(/单纯/g, arg+arg2)
+        })
+        Vue.filter('test', function(msg){
+            return msg + '======='
+        })
+        var vm = new Vue({
+            el: '#app',            //el指定vm要控制的元素
+            data: {                 //data指定vm中要展示的数据
+                msg: '也曾是单纯少年，单纯的我，傻傻的问，谁是最单纯的人'
+            },
+            methods:{             //methods指示我们要触发的方法
+
+            }
+        })
+
+    </Script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="app">
+        <mycom3></mycom3>
+        <!-- <login></login>  -->
+    </div>
+
+    <div id="app2">
+        <mycom3></mycom3>  
+        <login></login>      
+    </div>
+
+    <!-- 在被控制的#app外面，使用template元素，定义组件的HTML模板结构 -->
+    <template id="tmp1">
+        <div>
+            <h3>这是通过template元素在外部定义的组件结构，这个方式有代码的智能提示和高亮</h3><span>123</span>
+        </div>
+    </template>
+
+    <script>
+    Vue.component('mycom3', {
+        template: '#tmp1'
+    });
+        var vm = new Vue({
+            el: '#app',            //el指定vm要控制的元素
+            data: {                 //data指定vm中要展示的数据
+            },
+            methods:{             //methods指示我们要触发的方法
+
+            }
+        });
+        var vm2 = new Vue({
+            el:'#app2',
+            data: {},
+            methods: {},
+            filters: {},
+            directives: {},
+            components: {   //用于定义实例内部私有组件的
+                login: {
+                    template: '<h1>这是私有的login组件</h1>'
+                }
+            },
+
+            beforeCreate(){},
+            created(){},
+            beforeMount(){},
+            mounted(){},
+            beforeUpdate(){},
+            updated(){},
+            beforeDestroy(){},
+            destroyed(){},
+        })
+
+    </Script>
+</body>
+</html>

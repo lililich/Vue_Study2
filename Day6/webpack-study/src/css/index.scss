@@ -1,0 +1,16 @@
+html,body{
+    .box{
+        width: 220px;
+        height: 120px;
+        // 默认情况下，webpack无法处理css文件中的url地址，不管是图片还是地址库，只要是url地址，都处理不了，需要安装第三方模块
+        background: url('../images/dog2.jpeg');
+        background-size:cover;
+    }
+    .box2{
+        width: 220px;
+        height: 120px;
+        // 默认情况下，webpack无法处理css文件中的url地址，不管是图片还是地址库，只要是url地址，都处理不了，需要安装第三方模块
+        background: url('../images2/timg.png');
+        background-size:cover;
+    }
+}

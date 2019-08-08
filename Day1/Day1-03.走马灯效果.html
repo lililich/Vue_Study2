@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="嗨起来" @click="lang">
+        <input type="button" value="低调" @click="stop">
+        <h4>{{ msg }}</h4>
+    </div>
+    <script>      //注意：在VM实例中，如果要获取data上的数据，或者想要调用methods中的方法，必须通过this.数据属性名或者this.方法名来进行访问，这里的this.就表示我们new出来的VM实例 
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '猥琐发育，别浪~~！',
+                intervalId:null, //在data上面定义计时器Id
+            },
+            methods:{
+                lang(){
+                    if(this.intervalId != null) return;
+                    //console.log(this.msg);
+                    //var _this=this;
+                    this.intervalId = setInterval(() => {         //也可以用箭头函数，解决this指向问题
+                        //获取到头的第一个字符  
+                        var start = this.msg.substring(0,1);
+                        //获取到后面的字符
+                        var end = this.msg.substring(1);
+                        //重新拼接得到新的字符串，并赋值给this.msg
+                        this.msg = end + start;
+                    },400) 
+                     //vm实例会监听自己身上data中所有数据的改变，只要数据一发生变化，就会自动把最新的数据，从data、上同步到页面中去【好处：程序员只需要关心数据，不需要考虑如何重新渲染DOM页面】
+                },
+                stop(){
+                    clearInterval(this.intervalId);
+                    //每当清除了定时器之后需要把intervalId重新设为null，否则无法重新开启定时器
+                    this.intervalId = null;
+                }
+            }
+        })
+        
+    </Script>
+</body>
+</html>

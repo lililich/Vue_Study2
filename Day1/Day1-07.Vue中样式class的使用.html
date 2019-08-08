@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+    <style>
+        .red{
+            color:red;
+        }
+        .thin{
+            font-weight: 200;
+        }
+        .italic{
+            font-style: italic;
+        }
+        .active{
+            letter-spacing: 0.5em
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1 class="red thin">很大很大的标题</h1>
+        <!-- 第一种class使用方式，直接传递一个数组，注意，这里的class需要使用v-bind做数据绑定 -->
+        <h1 :class="['red', 'thin']">很大很大的标题</h1>
+        <!-- 在数组中使用三元表达式 -->
+        <h1 :class="['red', 'thin', flag?'active':'']">很大很大的标题</h1>
+        <!-- 在数组中使用对象代替三元表达式，提高代码的可读性 -->
+        <h1 :class="['red', 'thin', {'active':flag}]">很大很大的标题</h1>
+        <!-- 在为class使用v-bind绑定对象时，对象的属性名是类名，对象的属性可带引号也可不带引号，属性的值是一个标识符 -->
+        <h1 :class="{red:true,thin:true,italic:false,active:false}">很大很大的标题</h1>
+        <h1 :class="classObj">很大很大的标题</h1>
+        
+
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',         
+            data: {               
+                flag:true,
+                classObj:{red:true,thin:true,italic:false,active:false},
+            },
+            methods:{
+                
+            }
+        })
+
+    </Script>
+</body>
+</html>

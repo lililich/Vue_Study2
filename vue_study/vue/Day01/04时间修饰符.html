@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<style>
+    .inner{
+        height: 150px;
+        background-color: lightcoral;
+    }
+    .outter{
+        padding: 10px;
+        background-color: lightskyblue;
+    }
+</style>
+<body>
+
+    <div id="app">
+        <!--.stop修饰符阻止了向上冒泡行为，冒泡行为是本身存在的-->
+        <!--<div class="inner" @click="div1">-->
+            <!--<input type="button" value="点我" @click.stop="btn">-->
+        <!--</div>-->
+
+        <!--.prevent修饰符阻止了事件的默认行为，事件修饰符可以串联-->
+        <!--<div class="inner" @click="div1">-->
+            <!--<a href="https://www.baidu.com" @click.prevent.stop="link">这是一个百度链接</a>-->
+        <!--</div>-->
+
+        <!--.capture修饰符触发捕获触发机制，先触发被捕获的-->
+        <!--<div class="inner" @click.capture="div1">-->
+            <!--<input type="button" value="点我" @click="btn">-->
+        <!--</div>-->
+
+        <!--.self修饰符只有当前元素才触发-->
+        <!--<div class="inner" @click.self="div1">-->
+            <!--<input type="button" value="点我" @click="btn">-->
+        <!--</div>-->
+
+        <!--.once修饰符只触发一次-->
+        <div class="inner" @click="div1">
+            <a href="https://www.baidu.com" @click.prevent.once="link">这是一个百度链接</a>
+        </div>
+
+        <!--.self与.stop的不同点，.self只触发当前元素，阻止不了其他元素，.stop阻止了上级所有元素-->
+        <!--<div class="outter" @click="div2">-->
+            <!--<div class="inner" @click.self="div1">-->
+                <!--<input type="button" value="点我" @click="btn">-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="outter" @click="div2">-->
+            <!--<div class="inner" @click="div1">-->
+                <!--<input type="button" value="点我" @click.stop="btn">-->
+            <!--</div>-->
+        <!--</div>-->
+
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {
+                div1(){
+                    console.log("触发div1")
+                },
+                div2(){
+                    console.log("触发div2")
+                },
+                btn(){
+                    console.log("触发btn")
+                },
+                link(){
+                    console.log("触发link")
+                },
+            }
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <input  type="text" v-model="firstname">+
+    <input  type="text" v-model="lastname">=
+    <input  type="text" v-model="fullname">
+</div>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            firstname: '',
+            lastname: '',
+            fullname: ''
+        },
+        methods: {},
+        watch: {// 使用watch属性监听data指定数据的变化，然后触发这个watch中对应的function函数
+            firstname: function (newVal, oldVal) {
+                // console.log('监听到了firstname的变化！')
+                // this.fullname = this.firstname + this.lastname;
+                // console.log(newVal+'--'+ oldVal)变化的旧值和新值
+                this.fullname = newVal + this.lastname;
+            },
+            lastname: function (newVal) {
+                this.fullname = this.firstname + newVal;
+            }
+        }
+    });
+</script>
+</body>
+</html>

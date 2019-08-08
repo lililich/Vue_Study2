@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <mycom :parentmsg="msg" @func="send"></mycom>
+    </div>
+    <template id="tmp">
+        <div>
+            <h1>子组件-------{{ parentmsg }}</h1>
+            <input type="button" value="子组件传值给父组件" @click="show">
+        </div>
+    </template>
+<script>
+    let com = {
+        template: '#tmp',
+        props: ['parentmsg'],
+        data(){
+            return {
+                sonmsg: '子组件信息'
+            }
+        },
+        methods: {
+            show(){
+                this.$emit('func',this.sonmsg)
+            }
+
+        }
+
+    }
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            msg: '父组件信息',
+            msgfromson: ''
+        },
+        methods: {
+            send(data){
+                this.msgfromson = data;
+                console.log(this.msgfromson)
+            }
+        },
+        components: {
+            'mycom': com,
+        }
+    });
+</script>
+</body>
+</html>
+<!--父组件向子组件传值：-->
+<!--1、先在父组件的methods里写一个方法send(data)来接受子组件传过来的data-->
+<!--2、在子组件名称里使用v-bind属性绑定将父组件的方法传给一个新方法func-->
+<!--3、在子组件里写方法来触发func，传递子组件的data，使用this.$emit('func',this.sonmsg)来实现-->
+<!--4、在子组件里调用子组件方法就将data传递给父组件-->
+
+<!--子组件向父组件传值：-->
+<!--1、在子组件名称里使用v-on事件绑定将父组件的data传给一个新变量parentmsg-->
+<!--2、在子组件里使用props属性进行新变量声明-->
+<!--3、在子组件里引用parentmsg得到父组件data-->

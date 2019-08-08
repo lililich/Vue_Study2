@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--父组件可以在引用子组件的时候，通过属性绑定(v-bind:)的形式，把需要传递给子组件的数据一属性绑定的形式传递到子组件内部，供子组件使用-->
+    <com1 v-bind:parentmsg="msg"></com1>
+</div>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            msg: '我是父组件内容'
+        },
+        methods: {},
+        components: {
+            com1: {
+                // data中的数据是可以可读可写的，与props数据是有区别的，是自己私有的
+                data() {
+                    return {}
+                },
+                // template:'<h3>子组件内容---{{msg}}</h3>'
+                template:'<h3 @click="changemsg">子组件内容---{{parentmsg}}</h3>',
+                // 注意父组件传递给子组件的数据都需要使用props数组中定义一下才能使用
+                // 注意：props中的数据都是通过父组件传递给子组件的
+                // 不建议在props中操作数据，会产生warning
+                props:['parentmsg'],
+                directives: {},
+                filters: {},
+                components: {},
+                methods: {
+                    changemsg(){
+                        this.parentmsg = '修改父组件数据'
+                    }
+                },
+            }
+        }
+    });
+</script>
+</body>
+</html>

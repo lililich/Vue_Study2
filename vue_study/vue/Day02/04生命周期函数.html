@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <h3 id="h3">{{msg}}</h3>
+    <input type="button" value="修改msg" @click="msg = 'no'">
+</div>
+
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            msg: 'ok'
+        },
+        methods: {
+            show(){
+                console.log('show被执行了')
+            }
+        },
+        //创建期间的生命函数
+        beforeCreate(){//这是遇到的第一个生命周期函数，表示实例完全被创建出来之前，它会执行
+            // console.log(this.msg)
+            // this.show()
+            //注意：在beforeCreate生命周期执行的时候，data和methods中的数据都还没有初始化
+        },
+        created(){//这是遇到的第二个生命周期函数
+            //在created中，data和methods都已经被初始化好了
+            //如果要调用methods中的方法，或是操作data中的数据，最早只能在created中去操作
+            console.log(this.msg)
+            this.show()
+        },
+        beforeMount(){//这是遇到的第三个生命周期函数，表示模板已经在内存中编辑完成了，但是尚未把渲染到页面中
+            // console.log(document.getElementById('h3').innerText)
+            //在beforeMount执行的时候，页面中的元素，还没有被真正替换过来，只是之前写的一些模板字符串
+        },
+        mounted(){//mounted挂载 这是遇到的最后一个生命周期函数，表示内存中的模板已经真实的挂载到了页面中，用户已经可以看到渲染好的页面了
+            console.log(document.getElementById('h3').innerText)
+            //注意： mounted是实例创建期间的最后一个生命周期函数，当执行完mounted就表示实例已经被完全创建好了，此时，如果没有其他操作，这个实例就在内存中一动不动
+        },
+
+        //组件运行阶段的生命周期函数
+        beforeUpdate(){//这个时候表示我们的界面还没有被更新，二数据更新了
+            //结论：当执行beforeUpdate的时候页面中显示的数据还是旧的，此时data数据是最新的，页面尚未和最新数据保持同步
+            // console.log('页面上的msg元素内容是：'+ document.getElementById('h3').innerText);
+            // console.log('data中的msg元素内容是：'+ this.msg);
+
+        },
+        updated(){
+            //结论：当执行updated的时候页面中显示的数据和data数据保持一致了，是最新的数据
+            console.log('页面上的msg元素内容是：'+ document.getElementById('h3').innerText);
+            console.log('data中的msg元素内容是：'+ this.msg);
+        }
+    });
+
+</script>
+</body>
+</html>

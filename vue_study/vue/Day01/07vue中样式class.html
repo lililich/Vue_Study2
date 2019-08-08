@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <style>
+        .red{
+            color: aquamarine;
+        }
+        .thin{
+            font-weight: 200;
+        }
+        .italic{
+            font-style: italic;
+        }
+        .active{
+            letter-spacing: 0.5em;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+    <!--直接使用class类-->
+        <h1 class="italic thin">这是也个很大的H1</h1>
+    <!--Vue中class使用v-bind做数据绑定使用样式-->
+        <!--第一种：直接传递一个数组-->
+        <h1 :class="['italic', 'thin']">这是也个很大的H1</h1>
+        <!--第二种：在数组中使用三元表达式-->
+        <h1 :class="['italic', 'thin', flag?'active':'']">这是也个很大的H1</h1>
+        <!--第三种：在数组中适用对象来代替三元表达式-->
+        <h1 :class="['italic', 'thin', {'active':flag}]">这是也个很大的H1</h1>
+        <!--第四种：直接使用对象，对象的属性是类名，可以使用引号也可以不使用，属性的值是一个标识符-->
+        <h1 :class="{italic:true, red:true, active:flag}">这是也个很大的H1</h1>
+        <!--可以将对象放入vm实例中，然后引用-->
+        <h1 :class="classObj">这是也个很大的H1</h1>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                flag: true,
+                classObj: {italic:true, red:true, active:'flag'}
+            },
+            methods: {}
+        });
+
+    </script>
+</body>
+</html>

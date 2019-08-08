@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="../lib/vue-router.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--在路由中使用查询字符串，给路由传递参数，不用修改routes配置项path-->
+    <router-link to="/login?id=10&name=rayshell">登录</router-link>
+    <!--在路由中params，给路由传递参数，需要修改routes配置项path，一一对应-->
+    <router-link to="/register/110/rayshell">注册</router-link>
+    <router-view></router-view>
+</div>
+<script>
+    let login = {
+        template: '<h1>登录----{{ $route.query.id}}-----{{ $route.query.name}}</h1>',
+        data() {
+            return {}
+        },
+        // 组件的生命周期函数
+        created() {
+            // console.log(this.$route)
+            // query: {id: "10", name: "rayshell"}为传递过来的参数对象
+            console.log(this.$route.query.id)
+        }
+    };
+    let register = {
+        template:"<h1>注册组件--{{$route.params.id}} -- {{$route.params.name}}</h1>",
+        created() {
+            // params: {id: "110", name: "rayshell"}
+            console.log(this.$route.params.id)
+        }
+    }
+    let router = new VueRouter({
+        routes: [
+            {path: '/login', component: login},
+            {path: '/register/:id/:name',component:register}
+        ]
+    })
+    let vm = new Vue({
+        el: '#app',
+        data: {},
+        methods: {},
+        router,// router: router可以直接简写
+    });
+</script>
+</body>
+</html>

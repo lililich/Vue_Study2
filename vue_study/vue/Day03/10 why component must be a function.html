@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <counter></counter>
+    <hr>
+    <counter></counter>
+</div>
+<template id="tmp">
+    <div>
+        <input type="button" value="+1" @click="add">
+        <h3>{{count}}</h3>
+    </div>
+</template>
+<script>
+    // var dataObj = {count:0}
+    // data返回一个对象是保持组件之间的独立性
+    Vue.component('counter',{
+        template:'#tmp',
+        data: function () {
+            // return dataObj
+            return { count: 0 }
+        },
+        methods: {
+            add() {
+                this.count++;
+            }
+        }
+    })
+    var vm = new Vue({
+        el: '#app',
+        data: {},
+        methods: {}
+    });
+</script>
+</body>
+</html>

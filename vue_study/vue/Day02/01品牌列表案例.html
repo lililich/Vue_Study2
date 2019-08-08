@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">添加品牌</h3>
+        </div>
+        <div class="panel-body form-inline">
+            <form>
+                <div class="form-group">
+                    <label>
+                        Id:<input class="form-control" type="text" v-model="id">
+                    </label>
+                    <label>
+                        <!--敲击键盘事件-->
+                        Name:<input class="form-control" type="text" v-model="name" @keyup.enter="add">
+                    </label>
+                    <!--@click="add()"是可以设置参数，没有参数是可以不用带括号-->
+                    <!--点击事件-->
+                    <input class="btn btn-primary" type="button" value="添加" @click="add">
+
+                    <label>
+                        搜索关键字:<input class="form-control" type="text" v-model="keywords">
+                    </label>
+                </div>
+            </form>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>Name</th>
+                <th>Time</th>
+                <th>Operation</th>
+            </tr>
+        </thead>
+        <tbody>
+        <!--之前，v-for中的数据都是直接从data上的list中直接渲染过来的-->
+        <!--现在，自定义一个search方法，同时把所有的关键字通过传参的形式，传递给了search方法-->
+        <!--在search方法的内部，通过for循环，把所有符合搜索关键字的数据保存到一个新数组中，然后返回-->
+            <tr v-for="item in search(keywords)" :key="item.id">
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.time }}</td>
+                <!--根据id删除，要阻止默认刷新页面的默认事件加事件修饰符.prevent-->
+                <td><a href="#" @click.prevent="del(item.id)">删除</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            id: '',
+            name: '',
+            keywords: '',
+            list:[
+                {id:1, name:'奔驰', time: new Date()},
+                {id:2, name:'宝马', time: new Date()},
+            ]
+        },
+        methods: {
+            //添加方法
+            add(){
+                var car={id:this.id, name: this.name, time: new Date()}
+                this.list.push(car);
+                this.id = this.name = ''
+            },
+            //删除方法
+            del(id){
+                //如何根据id，找到要删除的索引
+                //找到索引，直接调用数组的splice方法:splice(index,n)index是删除的位置，n是删除的数量
+
+                //不完整循环:item是数组中正在处理的元素;i是数组中正在处理的元素的索引值
+                // this.list.some((item, i)=>{
+                //     if (item.id == id){
+                //         this.list.splice(i,1);
+                //         //在数组some方法中，如果return true，就会立即终止这个数组的循环
+                //         return true
+                //     }
+                // })
+
+                var index = this.list.findIndex(item =>{
+                    if (item.id == id){
+                        return true;
+                    }
+                })
+                //console.log(index)
+                this.list.splice(index,1);
+            },
+            //筛选过滤方法，根据关键字搜索
+            search(keywords){
+                //第一种方法
+                // var newlist = [];
+                // this.list.forEach(item =>{
+                //     //查询name里是否包含keywos
+                //     if (item.name.indexOf(keywords) != -1){
+                //        newlist.push(item);
+                //     }
+                // })
+                // return newlist;
+
+                // 注意：forEach some  filter findIndex 这些都是数组的新方法
+                // 都会对数组中的每一项进行遍历，执行相关的操作
+                var newlist = this.list.filter(item => {
+                    // if (item.name.indexOf(keywords) != -1)
+                    // 注意：ES6中，为字符串提供一个新方法叫做String.prototype.includes('要包含的字符串')
+                    // Jquery里提供$(':contains('')')
+                    if (item.name.includes(keywords)){
+                        return item
+                    }
+                })
+                return newlist
+            }
+        }
+    });
+
+</script>
+</body>
+</html>

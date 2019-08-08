@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="../lib/vue-router.js"></script>
+    <style>
+        html, body{
+            padding: 0;
+            margin: 0;
+        }
+        h1{
+            padding: 0;
+            font-size: 14px;
+            margin: 0;
+
+        }
+        .top{
+            height: 40px;
+            background-color: darkcyan;
+        }
+        /*使用flex布局*/
+        .container{
+            display: flex;
+        }
+        .left{
+            flex: 2;
+            height: 580px;
+            background-color: aquamarine;
+        }
+        .right{
+            flex: 8;
+            height: 580px;
+            background-color: aqua;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <router-view></router-view>
+        <div class="container">
+            <!--使用name属性来实现命名视图left,right是值不是变量-->
+            <router-view name="left"></router-view>
+            <router-view name="right"></router-view>
+        </div>
+
+    </div>
+<script>
+    let topbox = {
+        template: '<h1 class="top">顶部组件</h1>'
+    }
+    let lefbox = {
+        template: '<h1 class="left">左部组件</h1>'
+    }
+    let rightbox = {
+        template: '<h1 class="right">右部组件</h1>'
+    }
+    let router = new VueRouter({
+        routes:[
+            {
+                path: '/',
+                components: {default: topbox, 'left': lefbox, 'right': rightbox}// 一个url地址对应多个组件，对不同组件进行命名
+            }
+        ]
+    })
+    let vm = new Vue({
+        el: '#app',
+        data: {},
+        methods: {},
+        router,
+    });
+</script>
+</body>
+</html>

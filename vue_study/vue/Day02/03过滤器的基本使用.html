@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>03过滤器的基本使用</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <p>{{ msg | test }}</p>
+    <!--过滤器可以多次调用-->
+    <p>{{ msg | msgFormat('小D','123') | test}}</p>
+</div>
+
+
+<script>
+    // 定义全局过滤器，要在处理的数据前定义
+    //过滤器中的function，第一个参数已经被规定死了，永远都是过滤器管道符前面传递的数据
+    //Vue.filter('过滤器的名称',function (data) {})
+
+    Vue.filter('test', function (msg) {
+        return msg+'######'
+    })
+    Vue.filter('msgFormat', function (msg, arg, arg2) {
+        //字符串的replace方法，第一个参数可以写一个字符串之外，还可以定义一个正则
+        //过滤器还可以传参
+        return msg.replace(/小A/g,arg+arg2)
+    })
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            msg:'曾经小A和小B一起生活，小A说会对小B好一辈子。'
+        },
+        methods: {}
+    });
+
+    //定义一个私有过滤器
+    var vm1 = new Vue({
+        el:'#app1',
+        data: {
+            dt: new Date()
+        },
+        methods: {},
+        filters: {
+            dateFormat: function (dataStr) {
+            }
+        }
+
+    })
+</script>
+</body>
+</html>
+<!--过滤器的使用格式 {{ name | 过滤器名称}}-->

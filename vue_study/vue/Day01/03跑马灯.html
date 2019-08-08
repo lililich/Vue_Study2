@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>跑马灯</title>
+    <!--1、导入Vue框架-->
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+<!--创建要一个控制的区域-->
+<div id="app">
+    <input type="button" value="浪起来" @click="lang">
+    <input type="button" value="猥琐" @click="stop">
+    <h4>{{ msg }}</h4>
+</div>
+
+<script>
+    //注意：在vm实例中，如果想获取data中的数据，或是调用methods中的方法，必须通过this.属性名或是this.方法名，这里的this就表示new出来的vm实例
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            msg: '稳住，我们能赢！',
+            intervalId: null//在data上定义定时器ID
+        },
+        methods: {
+            //ES6函数，省略了function
+            lang(){
+                //设置定时器400ms,调用一次
+                //ES6的箭头函数，解决了this指向问题
+                // var _this = this;
+                // setInterval(function () {
+                //     var start = _this.msg.substring(0,1);
+                //     var end = _this.msg.substring(1);
+                //     _this.msg = end + start;
+                // },400)
+                //清除定时器并不能把intervId设置为null
+                if (this.intervalId != null) return;
+
+                this.intervalId = setInterval(()=>{
+                    // console.log(this.msg)
+                    //获取字符串的第一个字符
+                    var start = this.msg.substring(0,1);
+                    //获取后面所有的字符
+                    var end = this.msg.substring(1);
+                    //拼接字符串
+                    this.msg = end + start;
+                },400)
+
+                //注意：vm实例会监听自己身上data中所有数据的改变，只要数据一发生改变，就会自动把最新的数据从data上同步到页面上去；
+                //好处：程序员就只关心数据，不用考虑如何重新渲染DOM页面
+            },
+            stop(){
+                //停止定时器
+                clearInterval(this.intervalId);
+                //每当清除定时器后，与要重新把intervalId设置为null
+                this.intervalId = null;
+            }
+        }
+    })
+
+    //分析
+    //1、给按钮绑定点击事件
+    //2、在按钮的事件处理函数中，写相关的业务逻辑代码：拿到msg字符串，然后调用字符串的substring来进行字符串的截取操作，把第一个字符串截取出来放到最后去
+    //3、为了实现点击下按钮，字符串自动截取功能，需要把步骤2放到定时器中
+</script>
+</body>
+</html>

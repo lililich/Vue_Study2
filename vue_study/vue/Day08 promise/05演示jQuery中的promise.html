@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <input type="button" value="获取数据" id="btn">
+    <!--引入jQuery文件-->
+    <script src=""></script>
+    <script>
+        $(function () {
+            $('#btn').on('click', function () {
+                $.ajax({
+                    url: './data.json',
+                    type: 'get',
+                    dataType: 'json',
+                    // 一般操作
+                    // success: function (data) {
+                    //     console.log(data)
+                    // }
+                }).then(function (data) { // promise操作
+                    console.log(data)
+                })
+            })
+        })
+    </script>
+</body>
+</html>

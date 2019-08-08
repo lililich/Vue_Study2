@@ -1,0 +1,9 @@
+li{
+    list-style: none;
+}
+.box{
+    width: 300px;
+    height: 220px;
+    background-image: url("../images/20181011_022433_0.jpg");
+    background-size: cover;
+}

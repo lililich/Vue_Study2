@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <mycom1></mycom1>
+</div>
+<script>
+    // 组件可以有自己的data数据，与实例中data不一样，实例中的data为一个对象，组件中的data是一个方法，方法内部必须返回一个对象
+    // 组件中的data数据使用方式和实例中的data使用方式完全一样！！！！
+    Vue.component('mycom1',{
+        template:'<h1>this a component------{{msg}}</h1>',
+        data: function () {
+            return {
+                msg: 'this a data defined by component'
+            }
+        }
+    })
+    var vm = new Vue({
+        el: '#app',
+        data: {},
+        methods: {}
+    });
+</script>
+</body>
+</html>

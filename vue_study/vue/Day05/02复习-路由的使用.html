@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="../lib/vue-router.js"></script>
+    <style>
+        .v-enter,.v-leave-to{
+            transform: translateY(10px);
+            opacity: 0;
+        }
+        .v-enter-active,.v-leave-active{
+            transition: all 1s ease;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/login">登录</router-link>
+        <router-link to="/register">注册</router-link>
+        <transition mode="out-in">
+            <router-view></router-view>
+        </transition>
+
+    </div>
+<script>
+    let login = {
+        template: '<h1>霸波奔</h1>'
+    }
+    let register = {
+        template: '<h1>奔波霸</h1>'
+    }
+    let router = new VueRouter({
+        routes:[
+            {path:'/',component: login},
+            {path:'/login',component: login},
+            {path:'/register',component: register},
+        ]
+    })
+    let vm = new Vue({
+        el: '#app',
+        data: {},
+        methods: {},
+        router,
+    });
+</script>
+</body>
+</html>

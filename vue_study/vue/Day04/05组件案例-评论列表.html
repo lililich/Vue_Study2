@@ -1,0 +1,91 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <remark @func="loadComments"></remark>
+        <ul class="list-group">
+            <li class="list-group-item" v-for="item in list">
+                <span class="badge">评论人：{{ item.user }}</span>
+                {{ item.content }}
+            </li>
+        </ul>
+    </div>
+    <template id="tmp">
+        <div>
+            <div class="form-group">
+                <label>评论人：</label>
+                <input type="text" class="form-control" v-model="user">
+            </div>
+            <div class="form-group">
+                <label>发表评论：</label>
+                    <textarea class="form-control" v-model="content"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" value="发表评论" @click="add">
+            </div>
+        </div>
+
+    </template>
+<script>
+    var com = {
+        data(){
+            return {
+                user: '',
+                content: '',
+            }
+        },
+        template: '#tmp',
+        methods: {
+            add(){
+                // 发表评论的业务逻辑，存放到localStorage
+                // 组织一个最新评论对象为数组字符串数据
+                // 将评论数据放到localStorage中localStorage.setItem('cmts','')
+                // localStorage支持存放字符串，需要将我们的JSON对象类型进行转换，调用JSON.stringify()
+                // 在保存最新数据前，先要从localStorage中获取到之前评论的数据(string)，装换为一个数组对象，然后再把最新的对象unshift到数组中
+                // 如果获取到的localStorage评论字符串为空，则返回一个'[]'让JSON.parse去转换，若不为空再次调用JSON.stringify()转换为数组字符串，在调用localStorage.setItem('cmts','')
+                var comment = {user: this.user, content: this.content}
+                // 从localStorage中获取到所有的数据
+                var list = JSON.parse(localStorage.getItem('cmts') || '[]')
+                list.unshift(comment)
+                // 重新保存最新的评论数据
+                localStorage.setItem('cmts',JSON.stringify(list))
+                this.user = this.content = null
+
+                //调用父组件的方法
+                this.$emit('func')
+            }
+        }
+
+    }
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            list: [
+                {user: '李白', content: '举头望明月，低头思故乡'},
+                {user: '杜甫', content: '庄生晓梦迷蝴蝶，望帝春心托杜鹃'},
+            ]
+        },
+        created(){
+            this.loadComments()
+        },
+        methods: {
+            loadComments (){ //从本地的localStorage中加载评论列表
+                var list = JSON.parse(localStorage.getItem('cmts') || '[]')
+                this.list = list
+            }
+        },
+        components: {
+            'remark': com,
+        }
+    });
+</script>
+</body>
+</html>

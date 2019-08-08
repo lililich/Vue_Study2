@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /*v-enter是一个时间点，进入之前，元素的起始状态，此时还没有开始进入*/
+        /*v-leave-to是一个时间点，是动画离开之后，离开的终止状态，此时元素动画已经结束*/
+        .v-enter,.v-leave-to{
+            opacity: 0;
+            transform: translateX(150px);
+        }
+        /*v-enter-active是入场动画时间段,v-leave-active是离场动画时间段*/
+        .v-enter-active,.v-leave-active{
+            transition: all 0.8s ease;
+
+        }
+
+        /*name="my"是修改v的前缀，区分不同动画*/
+        .my-enter,.my-leave-to{
+            opacity: 0;
+            transform: translateY(150px);
+        }
+        /*v-enter-active是入场动画时间段,v-leave-active是离场动画时间段*/
+        .my-enter-active,.my-leave-active{
+            transition: all 0.8s ease;
+
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <input class="btn btn-primary" type="button" value="toggle" @click="flag=!flag">
+    <!--使用transition把需要被动画控制的元素包裹起来，transition是Vue官方提供-->
+    <transition>
+        <h3 v-show="flag">hello</h3>
+    </transition>
+
+    <hr class="divder">
+
+    <input class="btn btn-info" type="button" value="toggle" @click="flag1=!flag1">
+    <!--使用transition把需要被动画控制的元素包裹起来，transition是Vue官方提供-->
+    <!--name="my"是修改v的前缀，区分不同动画-->
+    <transition name="my">
+        <h6 v-show="flag1">hello</h6>
+    </transition>
+</div>
+
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            flag:true,
+            flag1:true
+        },
+        methods: {}
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <mycom2></mycom2>
+        <mycom3></mycom3>
+        <login></login>
+    </div>
+
+    <!--在被控制的#app外面，使用template元素定义组件的HTML模板结构-->
+    <template id="tmp1">
+        <div>
+            <h3>this a component created by Vue.extend</h3>
+            <h1>1234</h1>
+        </div>
+    </template>
+<script>
+    // 方式2
+    Vue.component('mycom2',{
+            //注意无论是那种方式创建出来的组件，组件的template属性指向的模板内容，必须有且只有一个唯一的根元素
+            template: '<h3>this a component created by Vue.extend</h3>'
+        })
+
+    //方式3，template属性通过id在外面定义
+    Vue.component('mycom3',{
+        template: '#tmp1'
+    })
+
+    var vm = new Vue({
+        el: '#app',
+        data: {},
+        methods: {},
+        filters: {},
+        directives: {},
+        components: {
+            login: {
+                template:'<h1>this is a private component </h1>'
+            //    也可以在外面定义template: '#tmp1'
+            }
+        },
+
+        beforeCreate() {
+        },
+        create() {},
+        beforeMount() {
+        },
+        mounted() {
+        },
+        beforeUpdate() {
+        },
+        updated() {},
+        beforeDestory(){},
+        destoryed(){},
+
+    });
+</script>
+</body>
+</html>

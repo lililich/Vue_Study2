@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+
+    <div id="app">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加品牌</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <form>
+                    <div class="form-group">
+                        <label>
+                            Id:<input class="form-control" type="text" v-model="id">
+                        </label>
+                        <label>
+                            Name:<input class="form-control" type="text" v-model="name" @keyup.f2="add">
+                        </label>
+                        <!--@click="add()"是可以设置参数，没有参数是可以不用带括号-->
+                        <input class="btn btn-primary" type="button" value="添加" @click="add">
+                        <label>
+                            搜索关键字:<input class="form-control" type="text" v-model="keywords" id="search" v-focus v-color="'blue'">
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>Name</th>
+                <th>Time</th>
+                <th>Operation</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--之前，v-for中的数据都是直接从data上的list中直接渲染过来的-->
+            <!--现在，自定义一个search方法，同时把所有的关键字通过传参的形式，传递给了search方法-->
+            <!--在search方法的内部，通过for循环，把所有符合搜索关键字的数据保存到一个新数组中，然后返回-->
+            <tr v-for="item in search(keywords)" :key="item.id">
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.time | dateFormat()}}</td>
+                <!--根据id删除，要阻止默认刷新页面的默认事件加事件修饰符.prevent-->
+                <td><a href="#" @click.prevent="del(item.id)">删除</a></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div id="app1" v-color = "'pink'"  v-fontsize = "'30px'" v-fontw = "'1000'">
+        <p>{{ dt | dateFormat }}</p>
+    </div>
+
+<script>
+    //定义一个全局过滤器
+    //全局过滤器就是所有vm实例都共享
+    //如果参数不传会报错，pattern=""是ES6形参的默认值
+    Vue.filter('dateFormat', function (dataStr, pattern="") {
+        var dt = new Date(dataStr)
+        var y = dt.getFullYear()
+        //月份是从0开始计的
+        var m = (dt.getMonth()+1).toString().padStart(2,'0');
+        var d = dt.getDate().toString().padStart(2,'0');
+
+        //不管传的字符串是大写还是小写，统一先小写化
+        if (pattern.toLowerCase() ==  'yyyy-mm-dd')
+        {
+            //ES6字符串模板
+            return `${y}-${m}-${d}`
+        }else{
+            // ES6中padStart填充字符串，先转化为字符串,2019-3-23转化为2019-03-23
+            var hh = dt.getHours().toString().padStart(2,'0');
+            var mm = dt.getMinutes().toString().padStart(2,'0');
+            var ss = dt.getSeconds().toString().padStart(2,'0');
+            return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+        }
+
+    })
+
+
+    // 自定义全局按键修饰符
+    Vue.config.keyCodes.f2 = 113
+
+    //自定义全局指令
+    //原生的获取焦点
+    //document.getElementById('search').focus();
+
+    //自定义全局指令 directive
+    //参数1是指令的名称 注:在定义的时候,指令的名称前面,不需要加 v- 前缀 ,但在调用的时候,必须 在指令名称的前面加上 v- 前缀进行调用
+    //参数2是一个对象 这个对象身上有一些指令相关的函数,这些函数,在特定阶段执行相关操作.
+    Vue.directive('focus',{
+        bind:function(el){//每当指令绑定到元素上的时候,会立即执行bind函数,只执行一次
+            //注:在每个参数中,第一个参数永远是el,表示被绑定了指令的那个元素,这个el参数,是一个原生的JS对象/DOM对象
+            //在元素刚绑定了指令的时候,还没插入到DOM中去,这时候,调用focus方法没有作用.因为一个元素只有插入到DOM之后,才能获得焦点
+            //el.focus();
+        },
+        inserted:function(el){//inserted表示元素插入到DOM中的时候,会执行inserted函数,只触发一次
+            el.focus();
+        },
+        updated:function(){//当组件/VNode更新的时候,会执行updated,可能会触发多次
+
+        }
+    })
+
+    //自定义一个设置字体的指令
+    Vue.directive('color',{
+        //binding是钩子函数的参数，value（指令值）, name(指令名), expression（指令表达式）
+        //和样式相关的操作都是在bind里执行的
+        bind: function (el, binding) {
+            el.style.color = binding.value;
+        }
+    })
+
+    //定义一个私有过滤器
+    //定义一个私有指令
+    var vm1 = new Vue({
+        el:'#app1',
+        data: {
+            dt: new Date()
+        },
+        methods: {},
+        //定义私有过滤器，条件：过滤器名称和处理函数
+        //过滤器调用，采用就近原则，如果私有过滤器和全局过滤器名称一致，优先调用私有过滤器
+        filters: {
+            dateFormat: function (dataStr,pattern='') {
+                var dt = new Date(dataStr)
+                var y = dt.getFullYear()
+                //月份是从0开始计的
+                // var m = dt.getMonth()+1
+                // var d = dt.getDate()
+                // ES6中padStart填充字符串，先转化为字符串
+                var m = (dt.getMonth()+1).toString().padStart(2,'0');
+                var d = dt.getDate().toString().padStart(2,'0');
+
+                //不管传的字符串是大写还是小写，统一先小写化
+                if (pattern.toLowerCase() ==  'yyyy-mm-dd')
+                {
+                    //ES6字符串模板
+                    return `${y}-${m}-${d}`
+                }else{
+                    var hh = dt.getHours().toString().padStart(2,'0');
+                    var mm = dt.getMinutes().toString().padStart(2,'0');
+                    var ss = dt.getSeconds().toString().padStart(2,'0');
+                    return `${y}-${m}-${d} ${hh}:${mm}:${ss}-- `
+                }
+            }
+        },
+        //定义一个私有指令
+        directives: {
+            'fontw': {
+                bind: function (el, binding) {
+                    el.style.fontWeight = binding.value
+                }
+            }
+        },
+        // 简写指令函数，这个function等同于吧代码写到了bind和update中去了
+        directives: {
+            'fontsize': function (el, binding) {
+                el.style.fontSize = parseInt(binding.value )+'px'
+            }
+
+        }
+
+    })
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            id: '',
+            name: '',
+            keywords: '',
+            list:[
+                {id:1, name:'奔驰', time: new Date()},
+                {id:2, name:'宝马', time: new Date()},
+            ]
+        },
+        methods: {
+            //添加方法
+            add(){
+                var car={id:this.id, name: this.name, time: new Date()}
+                this.list.push(car);
+                this.id = this.name = ''
+            },
+            //删除方法
+            del(id){
+                //如何根据id，找到要删除的索引
+                //找到索引，直接调用数组的splice方法:splice(index,n)index是删除的位置，n是删除的数量
+
+                //不完整循环:item是数组中正在处理的元素;i是数组中正在处理的元素的索引值
+                // this.list.some((item, i)=>{
+                //     if (item.id == id){
+                //         this.list.splice(i,1);
+                //         //在数组some方法中，如果return true，就会立即终止这个数组的循环
+                //         return true
+                //     }
+                // })
+
+                var index = this.list.findIndex(item =>{
+                    if (item.id == id){
+                        return true;
+                    }
+                })
+                //console.log(index)
+                this.list.splice(index,1);
+            },
+            //筛选过滤方法，根据关键字搜索
+            search(keywords){
+                //第一种方法
+                // var newlist = [];
+                // this.list.forEach(item =>{
+                //     //查询name里是否包含keywos
+                //     if (item.name.indexOf(keywords) != -1){
+                //        newlist.push(item);
+                //     }
+                // })
+                // return newlist;
+
+                // 注意：forEach some  filter findIndex 这些都是数组的新方法
+                // 都会对数组中的每一项进行遍历，执行相关的操作
+                var newlist = this.list.filter(item => {
+                    // if (item.name.indexOf(keywords) != -1)
+                    // 注意：ES6中，为字符串提供一个新方法叫做String.prototype.includes('要包含的字符串')
+                    // Jquery里提供$(':contains('')')
+                    if (item.name.includes(keywords)){
+                        return item
+                    }
+                })
+                return newlist
+            }
+        }
+    });
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
+

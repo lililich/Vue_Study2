@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="../lib/vue-router.js"></script>
+</head>
+<body>
+<div id="app">
+    <router-link to="/login">登录</router-link>
+    <router-link to="/register">注册</router-link>
+    <router-view></router-view>
+</div>
+<script>
+    let login = {
+        template: '<h1>我是登录</h1>'
+    }
+    let register = {
+        template: '<h1>我是注册</h1>'
+    }
+    let router = new VueRouter({
+        routes: [
+            {path: '/login',component: login},
+            {path: '/register',component: register},
+        ]
+    })
+    let vm = new Vue({
+        el: '#app',
+        data: {
+
+        },
+        methods: {},
+        router,
+        watch: {// 使用watch属性监听data指定数据的变化，然后触发这个watch中对应的function函数
+            '$route.path': function (newVaule) {
+                // console.log(newVaule)
+                if (newVaule == '/login'){
+                    console.log('欢迎来到登录页面')
+                } else {
+                    console.log('欢迎来到注册页面')
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

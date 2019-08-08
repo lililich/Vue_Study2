@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <style>
+        .ball{
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: lightcoral;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input class="btn btn-primary" type="button" value="动起来" @click="flag=!flag">
+        <!--入场动画的生命周期函数-->
+        <transition
+                @before-enter="beforeEnter"
+                @enter="enter"
+                @after-enter="afterEnter">
+            <div class="ball" v-show="flag"></div>
+        </transition>
+    </div>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            flag:false
+        },
+        methods: {
+            //每一次动画执行都从beforeEnter开始依次执行
+            beforeEnter(el){
+                //动画开始前，设置元素的起始样式
+                //钩子函数的第一个参数：el，表示要执行动画的那个DOM元素，相当于原生的JS DOM对象
+                // document.getElementById()方式获得的原生对象
+                el.style.transform = "translate(0,0)"
+            },
+            enter(el,done){
+                //刷新动画关键帧的作用，没有出不来动画效果offsetWidth，offsetHeight，offsetTop等都可以
+                el.offsetWidth
+                //enter表示动画开始之后的样式，设置小球完成动画之后的结束状态
+                el.style.transform = "translate(150px,450px)"
+                el.style.transition = "all 1s ease"
+                //立即消失，动画过度立即完成，调用done函数，其实就是afterEnter的引用
+                done()
+            },
+            afterEnter(el){
+                //动画完成之后，调用afterEnter，设置小球消失
+                this.flag = !this.flag
+            }
+        }
+    });
+</script>
+</body>
+</html>

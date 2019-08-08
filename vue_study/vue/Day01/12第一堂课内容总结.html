@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+<!--1、MVC和MVVM的区别-->
+<!--2、学习了Vue的基本代码结构-->
+<!--3、插值表达式 v-cloak v-text v-html v-bind(缩写:) v-on(缩写@) v-model v-for v-show-->
+<!--4、事件修饰符 .stop .prevent .capture .self .once-->
+<!--5、el 指定要控制的区域    data 是个对象，指定控制区域要用的数据  methods 虽然带了个s后缀，但是是一个对象，这里可以自定义方法-->
+<!--6、在vm实例中要访问data上的属性或是methods里的方法，必须带上this-->
+<!--7、在使用v-for是学会使用key属性（只接受唯一的string/number）-->
+<!--8、v-model只能应用于表单元素-->
+<!--9、在Vue绑定样式的两种方式：:class :style-->
+    <div id="app">
+        <h4>第一堂课总结</h4>
+        <p v-for="item in list">{{item.id}}_{{item.content}}</p>
+    </div>
+
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            list:[
+                {
+                    id:1,
+                    content:'MVC和MVVM的区别'
+                },
+                {
+                    id:2,
+                    content:'学习了Vue的基本代码结构'
+                },
+                {
+                    id:3,
+                    content:'插值表达式 v-cloak v-text v-html v-bind(缩写:) v-on(缩写@) v-model v-for v-show'
+                },
+                {
+                    id:4,
+                    content:'事件修饰符 .stop .prevent .capture .self .once'
+                },
+                {
+                    id:5,
+                    content:'el 指定要控制的区域    data 是个对象，指定控制区域要用的数据  methods 虽然带了个s后缀，但是是一个对象，这里可以自定义方法'
+                },
+                {
+                    id:6,
+                    content:'在vm实例中要访问data上的属性或是methods里的方法，必须带上this'
+                },
+                {
+                    id:7,
+                    content:'在使用v-for是学会使用key属性（只接受唯一的string/number）'
+                },
+                {
+                    id:8,
+                    content:'v-model只能应用于表单元素'
+                },
+                {
+                    id:9,
+                    content:'在Vue绑定样式的两种方式：:class :style'
+                },
+            ]
+        },
+        methods: {}
+    });
+
+</script>
+</body>
+</html>
+

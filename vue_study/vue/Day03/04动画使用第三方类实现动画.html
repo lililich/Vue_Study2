@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!--使用第三方类animate.css来实现动画-->
+    <link rel="stylesheet" href="../lib/animate.css">
+    <!--入场使用bounceIn，离场使用bounceOut-->
+</head>
+<body>
+<div id="app">
+    <input class="btn btn-primary" type="button" value="toggle" @click="flag=!flag">
+    <!--使用transition把需要被动画控制的元素包裹起来，transition是Vue官方提供-->
+    <!--使用enter-active-class和leave-active-class来使用animate的类，
+    :duration="200"为设置入场离场动画ms
+    也可以分开设置:duration="{enter:200,leave:400}"-->
+    <transition enter-active-class="bounceIn" leave-active-class="bounceOut" :duration="200">
+        <h3 v-show="flag">hello</h3>
+    </transition>
+</div>
+
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            flag:true,
+        },
+        methods: {}
+    });
+
+</script>
+</body>
+</html>

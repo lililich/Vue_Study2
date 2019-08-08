@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+
+</div>
+<script>
+    let login = {
+        template:'<h1>登录组件</h1>'
+    }
+    let vm = new Vue({
+        el: '#app',
+        data: {},
+        methods: {},
+        render: function (createElements) {// createElements是一个方法调用它可以指定组件模板渲染为HTML结构
+            return createElements(login) // 直接替换el的div
+        }
+    });
+</script>
+</body>
+</html>

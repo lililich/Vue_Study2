@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!--<my-com1></my-com1>-->
+        <mycom1></mycom1>
+    </div>
+<script>
+    // 1.1使用Vue.extend创建com1组件模板对象
+    var com1 = Vue.extend({
+        // template属性制定了组件要展示的HTML结构
+        template: '<h3>this a component created by Vue.extend</h3>'
+    })
+    // 1.2使用Vue.component('组件名称',组件模板对象)，若组件名命名方式是驼峰命名，需要大写变小写再加-链接，如果不适用驼峰就直接拿来使用
+    // Vue.component('myCom1',com1)
+    Vue.component('mycom1',com1)
+
+    //合并上两步
+    // Vue.component('mycom1',Vue.extend({
+    //     // template属性制定了组件要展示的HTML结构
+    //     template: '<h3>this a component created by Vue.extend</h3>'
+    // }))
+
+    var vm = new Vue({
+        el: '#app',
+        data: {},
+        methods: {}
+    });
+</script>
+</body>
+</html>

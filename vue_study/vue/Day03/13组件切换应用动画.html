@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <style>
+        .v-enter,.v-leave-to{
+            opacity: 0;
+            transform: translateX(150px);
+        }
+
+        .v-enter-active,.v-leave-active{
+            transition: all 0.8s ease;
+
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <a href="#" @click.prevent="comName='login'">login</a>
+    <a href="#" @click.prevent="comName='register'">register</a>
+    <!--组件切换动画，把组件用transition包裹起来就行了-->
+    <!--通过mode属性设置组件切换时候的模式-->
+    <transition mode="out-in">
+        <component :is="comName"></component>
+    </transition>
+
+
+    <!--总结：当前学习了几个Vue提供的标签？-->
+    <!--component、template、transition、transition-group-->
+</div>
+<script>
+    // 切换方式一，使用v-if和v-else结合flag进行切换
+    Vue.component('login',{
+        template: '<h3>登录界面</h3>'
+    })
+    Vue.component('register',{
+        template: '<h3>注册界面</h3>'
+    })
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            comName: 'login'
+        },
+        methods: {}
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <a href="#" @click.prevent="comName='login'">login</a>
+    <a href="#" @click.prevent="comName='register'">register</a>
+    <!--vue提供了component，来展示对应名称的组件-->
+    <!--component是一个占位符，:is属性可以用来指定要展示组件的名称-->
+    <!--这样就不限制与连个组件切换了-->
+    <component :is="comName"></component>
+
+    <!--总结：当前学习了几个Vue提供的标签？-->
+    <!--component、template、transition、transition-group-->
+</div>
+<script>
+    // 切换方式一，使用v-if和v-else结合flag进行切换
+    Vue.component('login',{
+        template: '<h3>登录界面</h3>'
+    })
+    Vue.component('register',{
+        template: '<h3>注册界面</h3>'
+    })
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            comName: 'login'
+        },
+        methods: {}
+    });
+</script>
+</body>
+</html>

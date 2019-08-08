@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <h4>{{ msg }}</h4>
+    <!--v-bind只能实现数据的单向绑定M到V-->
+    <input type="text" v-bind:value="msg">
+    <!--v-model能实现数据的双向绑定，M到V，V到M-->
+    <!--注意：v-model只能运用到表单中-->
+    <!--input(radio text address email) select CheckBox textarea-->
+    <input type="text" v-model="msg">
+</div>
+
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            msg: '我的座右铭：xxxx'
+        },
+        methods: {}
+    });
+
+</script>
+</body>
+</html>

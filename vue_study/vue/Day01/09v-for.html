@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!--循环普通数组-->
+        <p>{{ list[0] }}</p>
+        <p v-for="item in list">{{ item }}</p>
+        <p v-for="(item,i) in list">索引值为：{{ i }}  内容为： {{ item }}</p>
+
+        <!--循环复杂数组-->
+        <p v-for="(user in list2">id为：{{ user.id }}  用户名为： {{ user.name }}</p>
+        <p v-for="(user,i) in list2">索引值为：{{ i }} id为：{{ user.id }}  用户名为： {{ user.name }}</p>
+
+        <!--遍历对象-->
+        <p v-for="(val,key,i) in user">索引值为：{{ i }}  属性名为：{{ key }}  属性值为： {{ val }}</p>
+
+        <!--迭代数字-->
+        <!--in后面放普通数组，对象数组、对象，还可以是数字-->
+        <!--使用v-for迭代数字，从1开始-->
+        <p v-for="count in 10">这是第{{count}}此循环</p>
+    </div>
+
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            list: [1,2,3,4,5,6],
+            list2:[
+                {id:1, name:'Alice'},
+                {id:2, name:'Bob'}
+            ],
+            user:{
+                id: 1,
+                name: 'CC',
+                gender: 'man'
+            }
+        },
+        methods: {}
+    });
+</script>
+</body>
+</html>

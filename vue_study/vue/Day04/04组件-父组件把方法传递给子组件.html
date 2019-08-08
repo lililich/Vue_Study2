@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--父组件向子组件传递方法使用的是事件绑定机制v-on；-->
+    <!--当我们定义一个事件属性后，子组件就可以通过某种方式来调用传递进去的这个方法了-->
+    <com v-on:func123="show"></com>
+</div>
+<template id="tmp">
+    <div>
+        <h1>这是个子组件</h1>
+        <input type="button" value="调用父组件方法" @click="sonclick">
+    </div>
+
+</template>
+<script>
+    // 定义一个组件模板
+    var com = {
+        template: '#tmp',
+        data () {
+            return {
+                sonmsg: {name: 'son', age: 24}
+            }
+        },
+        methods: {
+            sonclick(){
+                // 当点击子组件按钮的时候，使用$emit('事件属性名',参数1，参数2)来调用这个方法
+                // emit：触发，调用、发射的意思
+                // this.$emit('func123',123，456)
+                // 还可以传对象
+                this.$emit('func123',this.sonmsg)
+                // console.log('调用子组件sonclick方法被执行了！')
+
+            }
+        }
+    }
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            datamsgFromSon: null
+        },
+        methods: {
+            show(data){
+                // 子组件向父组件传值的方法
+                this.datamsgFromSon = data;
+                console.log('调用父组件show方法被执行了！'+ data);
+                console.log(data);
+
+            }
+        },
+        components: {
+            com
+
+        }
+    });
+</script>
+</body>
+</html>

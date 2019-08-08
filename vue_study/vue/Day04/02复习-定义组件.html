@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <mycom></mycom>
+</div>
+<script>
+    // 对象自变量
+    var login = {
+        template:'<h1>123</h1>'
+    }
+    Vue.component('mycom',login)
+
+    // Vue.component('mycom',{
+    //     template: ''
+    // })
+    var vm = new Vue({
+        el: '#app',
+        data: {},
+        methods: {},
+        // components: {
+        //     'mycom': {
+        //         template:''
+        //     }
+        // },
+        components: {
+            // '组件名': 组件的模板对象
+            'mycom': login
+            //简写login，引用时直接写<login></login>
+            //login
+        }
+    });
+</script>
+</body>
+</html>
